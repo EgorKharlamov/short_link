@@ -12,4 +12,4 @@ RUN cargo build --release
 
 EXPOSE 8080
 
-ENTRYPOINT ["/bin/bash", "-c", "cargo run --release"]
+ENTRYPOINT ["/bin/bash", "-c", "cargo run --release --bin server"]

@@ -10,7 +10,6 @@ export class Api {
   }
 
   static async sendLongLink(link: string): Promise<Response> {
-    console.log(apiUrl,import.meta.env.DEV)
     return await (await ky(`${apiUrl}/set`,{
       method: 'POST',
       json: {
