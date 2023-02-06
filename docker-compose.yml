@@ -23,6 +23,11 @@ services:
       dockerfile: Dockerfile
     environment:
       - CLIENT_URL=${CLIENT_URL}
+      - POSTGRES_HOST=${DB_HOST}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_PORT=${DB_PORT}
     ports:
       - '${API_PORT}:${API_PORT}'
     depends_on:
