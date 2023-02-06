@@ -18,7 +18,7 @@ use std::time::Duration;
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     let config = Config::default();
-    println!("Api run on {}:{}", config.db_host, config.api_port);
+    println!("Api run on {}:{}", config.api_host, config.api_port);
     println!("database_url {}", config.database_url);
 
     Service::default();
@@ -40,7 +40,7 @@ async fn main() -> std::io::Result<()> {
             .service(save_link)
     })
     .keep_alive(Duration::from_secs(30))
-    .bind(format!("{}:{}", config.db_host, config.api_port))?
+    .bind(format!("{}:{}", config.api_host, config.api_port))?
     .run()
     .await
 }

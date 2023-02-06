@@ -4,6 +4,7 @@ use serde::Deserialize;
 #[derive(Debug, Default, Deserialize)]
 pub struct Config {
     pub api_port: String,
+    pub api_host: String,
     pub db_host: String,
     pub db_port: String,
     pub db_username: String,
@@ -18,6 +19,7 @@ impl Config {
         dotenv().ok();
         Config {
             api_port: dotenvy::var("API_PORT").expect("Where is your api_port?"),
+            api_host: dotenvy::var("API_HOST").expect("Where is your api_host?"),
             db_host: dotenvy::var("DB_HOST").expect("Where is your db_host?"),
             db_port: dotenvy::var("DB_PORT").expect("Where is your db_port?"),
             db_username: dotenvy::var("DB_USERNAME").expect("Where is your db_username?"),
