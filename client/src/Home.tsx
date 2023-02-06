@@ -10,12 +10,12 @@ const App: Component = () => {
   const clickHandler = async () => {
     try {
       const link = new URL(longLink());
-      if (link.host === appUrl) {
+      if (appUrl.includes(link.host)) {
         setLongLink("");
         throw new Error("You can't use the same host!")
       }
       const res = await Api.sendLongLink(link.href);
-      setShortLink(`http://localhost:3000/${res.data}`)
+      setShortLink(`${appUrl}/${res.data}`)
       toast.success('Yay! Short link is ready!');
     } catch (e: any) { // :'(
       toast.error(e.message)
