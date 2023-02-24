@@ -1,6 +1,7 @@
 pub mod config;
 mod controller;
 pub mod models;
+mod openapi;
 mod repository;
 mod scheduler;
 pub mod schema;
@@ -14,6 +15,7 @@ use crate::service::Service;
 use actix_cors::Cors;
 use actix_web::{http, App, HttpServer};
 use std::time::Duration;
+use utoipa_swagger_ui::SwaggerUi;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -29,7 +31,8 @@ async fn main() -> std::io::Result<()> {
 
     HttpServer::new(move || {
         let cors = Cors::default()
-            .allowed_origin(config.client_url.as_str())
+            .allowed_origin("http://192.168.0.19:4173")
+            .allowed_origin("http://localhost:4173")
             .allowed_origin("http://localhost:3000")
             .allowed_methods(vec!["GET", "POST"])
             .allowed_header(http::header::CONTENT_TYPE)
@@ -38,6 +41,10 @@ async fn main() -> std::io::Result<()> {
             .wrap(cors)
             .service(get_link_by_id)
             .service(save_link)
+            .service(SwaggerUi::new("/swagger-ui/{_:.*}").url(
+                "/api-doc/openapi.json",
+                openapi::api_doc::open_api().clone(),
+            ))
     })
     .keep_alive(Duration::from_secs(30))
     .bind(format!("{}:{}", config.api_host, config.api_port))?

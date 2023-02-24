@@ -1,21 +1,6 @@
 version: '3'
 
-volumes:
-  pg_db:
-
 services:
-  api:
-    restart: always
-    build:
-      context: ./
-      dockerfile: Dockerfile
-    ports:
-      - '${API_PORT}:${API_PORT}'
-    depends_on:
-      - pg_db
-    command:
-      - bash -c "diesel setup"
-
   pg_db:
     image: postgres:15-alpine
     restart: always
@@ -29,3 +14,6 @@ services:
       - pg_db:/var/lib/postgresql/data
     ports:
       - '5432:5432'
+
+volumes:
+  pg_db:

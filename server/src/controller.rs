@@ -3,19 +3,32 @@ use crate::structs::{GetLinkById, SaveLink};
 use actix_web::web::Json;
 use actix_web::{get, post, web, HttpResponse, Responder};
 use serde::Serialize;
+use utoipa::ToSchema;
 
-#[derive(Serialize)]
-struct ResponseOkJson<'a> {
+#[derive(Serialize, ToSchema)]
+pub struct ResponseOkJson<'a> {
     code: i32,
     data: &'a String,
 }
 
-#[derive(Serialize)]
-struct ResponseErrJson {
+#[derive(Serialize, ToSchema)]
+pub struct ResponseErrJson {
     code: i32,
     error: String,
 }
 
+/// Get link by id.
+///
+/// One could call the api endpoint with following curl.
+/// ```text
+/// curl localhost:8080/asdf
+/// ```
+#[utoipa::path(
+responses(
+(status = 200, description = "Link by id", body = [ResponseOkJson]),
+(status = 400, description = "No such links", body = [ResponseErrJson])
+)
+)]
 #[get("/{link_id}")]
 pub async fn get_link_by_id(path: web::Path<GetLinkById>) -> impl Responder {
     let link = Service::get_link_by_short(path.link_id.as_str());
@@ -37,6 +50,17 @@ pub async fn get_link_by_id(path: web::Path<GetLinkById>) -> impl Responder {
     }
 }
 
+/// Set long link to get short.
+///
+/// One could call the api endpoint with following curl.
+/// ```text
+/// curl localhost:8080/set -d '{"link": "https://mysite.com"}'
+/// ```
+#[utoipa::path(
+responses(
+(status = 200, description = "Convert long link to short", body = [ResponseOkJson]),
+)
+)]
 #[post("/set")]
 pub async fn save_link(req: Json<SaveLink>) -> impl Responder {
     let link = Service::create_link(req.link.as_str());
