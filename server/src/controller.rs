@@ -30,6 +30,7 @@ pub struct ResponseErrJson {
 /// ```
 #[utoipa::path(
 get,
+operation_id = "get_long_original_link",
 responses(
 (status = 200, description = "Link by id", body = ResponseOkJson, examples(
 ("First" = (summary = "First success", description = "First success", value = json!(ResponseOkJson{code: 200, data: &"https://mysite.com/kekw?one=one&two=two".to_string()}))),
@@ -73,10 +74,11 @@ pub async fn get_link_by_id(path: web::Path<GetLinkById>) -> impl Responder {
 /// ```
 #[utoipa::path(
 post,
+operation_id = "set_short_link",
 responses(
-(status = 200, description = "Convert long link to short", body = ResponseOkJson),
+(status = 200, description = "Convert long link to short", body = ResponseOkJson, example = json!(ResponseOkJson{code: 200, data: &"H2dQ".to_string()})),
 ),
-request_body(content = SaveLink),
+request_body(content = SaveLink, example = json!(SaveLink{link: "https://mysite.com".to_string()})),
 )]
 #[post("/set")]
 pub async fn save_link(req: Json<SaveLink>) -> impl Responder {
