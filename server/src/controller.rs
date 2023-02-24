@@ -3,17 +3,22 @@ use crate::structs::{GetLinkById, SaveLink};
 use actix_web::web::Json;
 use actix_web::{get, post, web, HttpResponse, Responder};
 use serde::Serialize;
+use serde_json;
 use utoipa::ToSchema;
 
 #[derive(Serialize, ToSchema)]
 pub struct ResponseOkJson<'a> {
+    /// Status code
     code: i32,
+    /// The code for short link
     data: &'a String,
 }
 
 #[derive(Serialize, ToSchema)]
 pub struct ResponseErrJson {
+    /// Status Code
     code: i32,
+    /// Error message
     error: String,
 }
 
@@ -24,10 +29,20 @@ pub struct ResponseErrJson {
 /// curl localhost:8080/asdf
 /// ```
 #[utoipa::path(
+get,
 responses(
-(status = 200, description = "Link by id", body = [ResponseOkJson]),
-(status = 400, description = "No such links", body = [ResponseErrJson])
-)
+(status = 200, description = "Link by id", body = ResponseOkJson, examples(
+("First" = (summary = "First success", description = "First success", value = json!(ResponseOkJson{code: 200, data: &"https://mysite.com/kekw?one=one&two=two".to_string()}))),
+("Second" = (summary = "Second success", description = "Second success", value = json!(ResponseOkJson{code: 200, data: &"https://mysite.com/".to_string()}))),
+)),
+
+(status = 400, description = "No such links", body = ResponseErrJson, examples(
+("First" = (summary = "First fail", description = "First fail", value = json!(ResponseErrJson{code: 400, error: "No such links!".to_string()}))),
+))
+),
+params(
+("id" = String, Path, description = "Short link database id to get original link for redirect", example = "H2dr", description = "Value of short `Link` for the getting original long `Link` to redirect."),
+),
 )]
 #[get("/{link_id}")]
 pub async fn get_link_by_id(path: web::Path<GetLinkById>) -> impl Responder {
@@ -57,9 +72,11 @@ pub async fn get_link_by_id(path: web::Path<GetLinkById>) -> impl Responder {
 /// curl localhost:8080/set -d '{"link": "https://mysite.com"}'
 /// ```
 #[utoipa::path(
+post,
 responses(
-(status = 200, description = "Convert long link to short", body = [ResponseOkJson]),
-)
+(status = 200, description = "Convert long link to short", body = ResponseOkJson),
+),
+request_body(content = SaveLink),
 )]
 #[post("/set")]
 pub async fn save_link(req: Json<SaveLink>) -> impl Responder {

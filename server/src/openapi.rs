@@ -1,15 +1,16 @@
 pub mod api_doc {
-    use crate::controller;
+    use crate::controller as Links;
+    use crate::structs::SaveLink;
     use utoipa::OpenApi;
 
     #[derive(OpenApi)]
     #[openapi(
     paths(
-    controller::get_link_by_id,
-    controller::save_link,
+    Links::get_link_by_id,
+    Links::save_link,
     ),
     components(
-    schemas(controller::ResponseOkJson, controller::ResponseErrJson)
+    schemas(Links::ResponseOkJson, Links::ResponseErrJson, SaveLink)
     ),
     tags(
     (name = "link", description = "Link shorter.")
