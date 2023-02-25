@@ -31,9 +31,7 @@ async fn main() -> std::io::Result<()> {
 
     HttpServer::new(move || {
         let cors = Cors::default()
-            .allowed_origin("http://192.168.0.19:4173")
-            .allowed_origin("http://localhost:4173")
-            .allowed_origin("http://localhost:3000")
+            .allowed_origin(config.client_url.as_str())
             .allowed_methods(vec!["GET", "POST"])
             .allowed_header(http::header::CONTENT_TYPE)
             .max_age(3600);

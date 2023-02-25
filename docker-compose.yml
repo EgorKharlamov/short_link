@@ -21,10 +21,20 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
-    ports:
-      - '8080:8088'
+    environment:
+      - API_PORT=${API_PORT}
+      - API_HOST=${API_HOST}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - DATABASE_URL=${DATABASE_URL}
+      - CLIENT_URL=${CLIENT_URL}
     depends_on:
       - pg_db
+    ports:
+      - '8080:8080'
 
   pg_db:
     image: postgres:15-alpine
