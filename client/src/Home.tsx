@@ -16,6 +16,10 @@ const App: Component = () => {
   const clickShortHandler = async () => {
     try {
       const link = new URL(longLink());
+      if (!link.host) {
+        setLongLink('');
+        throw new Error('Invalid URL');
+      }
       if (appUrl.includes(link.host)) {
         setLongLink('');
         throw new Error("You can't use the same host!");
