@@ -15,15 +15,11 @@ const App: Component = () => {
 
   const clickShortHandler = async () => {
     try {
-      if (!longLink().slice(0, 5).includes('http'))
-        throw new Error('You must specify the protocol (http:// or https://)');
-
-      const link = new URL(longLink());
-      if (appUrl.includes(link.host)) {
+      if (longLink().includes(window.location.host)) {
         setLongLink('');
         throw new Error("You can't use the same host!");
       }
-      const res = await Api.sendLongLink(link.href);
+      const res = await Api.sendLongLink(longLink());
       setShortLink(`${appUrl}/${res.data}`);
       toast.success('Yay! Short link is ready!');
     } catch (e: TryCatchError) {
