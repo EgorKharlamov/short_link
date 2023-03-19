@@ -9,4 +9,12 @@ export default defineConfig({
   build: {
     target: 'esnext',
   },
+  resolve: {
+    alias: [
+      {
+        find: '@',
+        replacement: '/src',
+      },
+    ],
+  },
 });
