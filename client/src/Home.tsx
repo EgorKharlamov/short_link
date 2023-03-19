@@ -26,7 +26,6 @@ const App: Component = () => {
       const res = await Api.sendLongLink(link.href);
       setShortLink(`${appUrl}/${res.data}`);
       toast.success('Yay! Short link is ready!');
-      await onCopy();
     } catch (e: TryCatchError) {
       toast.error(e.message);
     }
