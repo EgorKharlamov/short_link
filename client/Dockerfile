@@ -5,12 +5,11 @@ FROM node:19-alpine as builder
 
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
-COPY pnpm-lock.yaml ./
+COPY package.json ./
 
-RUN npm i -g pnpm
-RUN pnpm i
+RUN npm i
 COPY . ./
-RUN pnpm run build
+RUN npm run build
 
 FROM nginx:1.16.0-alpine
 COPY --from=builder /app/dist /usr/share/nginx/html
