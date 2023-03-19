@@ -10,7 +10,7 @@ const Link: Component = () => {
   const { id } = useParams<Params>();
   createEffect(async () => {
     const res = await Api.getRedirectUrl(id);
-    window.location.replace(`//${res.data}`);
+    window.location.replace(res.data);
   });
   return <></>;
 };
