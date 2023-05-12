@@ -6,6 +6,7 @@ FROM node:19-alpine as builder
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 COPY package.json ./
+COPY pnpm-lock.yaml ./
 
 RUN npm i -g pnpm
 RUN pnpm i
