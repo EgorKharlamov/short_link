@@ -3,7 +3,7 @@ FROM rust:1.67-slim-buster as builder
 RUN apt-get update && \
   apt-get -y upgrade && \
   apt-get -y install libpq-dev postgresql postgresql-contrib
-RUN cargo install diesel_cli --no-default-features --features postgres
+RUN cargo install diesel_cli@2.1.0 --no-default-features --features postgres
 
 WORKDIR /usr/src/server
 COPY . .
