@@ -40,5 +40,6 @@
     "nanoid": "4.0.1",
     "solid-js": "1.6.10",
     "solid-toast": "0.4.0"
-  }
+  },
+  "packageManager": "pnpm@5.1.0+sha512.06900d3d86468899fd88a5630c64d354eae1821c29d391530abc1462ffa355e5284b0238df94c68950562c7d9ddc35884d3ae2dda1db160a5630aa72f180748c"
 }
