@@ -8,8 +8,8 @@ ENV PATH /app/node_modules/.bin:$PATH
 COPY package.json ./
 COPY pnpm-lock.yaml ./
 
-RUN npm i -g pnpm
-RUN pnpm i
+RUN npm i -g pnpm@5.4
+RUN pnpm i --force
 COPY . ./
 RUN pnpm run build
 
